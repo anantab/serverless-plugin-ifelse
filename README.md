@@ -8,6 +8,9 @@ Another use case that inspired me to write this plugin was, I wanted to use ```i
 This plugin allows you to write if else conditions in ```serverless.yml``` file to remove or change the values of attributes in the yml file. It works with both ```package``` and ```deploy``` commands. It also works with ```serverless-offline``` plugin.
 
 
+# Installation
+```npm i serverless-plugin-ifelse --save-dev```
+
 ## Example
 serverless.yml
 ```
@@ -92,23 +95,24 @@ Put your conditions in custom variable ```serverlessIfElse```.
 ```- If: '"${self:provider.stage}" == "dev"'```
 
 ### Exclude 
-    If condition in If is true, all attibutes in Exclude will be ignored before serverless package or deploy your stack and hence serverless will not see those attributes.
+If condition in If is true, all attibutes in Exclude will be ignored before serverless package or deploy your stack and hence serverless will not see those attributes.
 
 ### Set 
-     If condition in If is true, the value of the attribute will be updated with new value.
+If condition in If is true, the value of the attribute will be updated with new value.
 
 ### ElseExclude 
-     If condition in If is false,the attibutes will be ignored.
+If condition in If is false,the attibutes will be ignored.
 
 ### ElseSet 
-     If condition in If is false, the value of the attribute will be updated with new value.
+If condition in If is false, the value of the attribute will be updated with new value.
 
 ## - ExcludeIf
-    Use ExcludeIf, if you want to write conditions per attribute. If condition is true, only that attribute will be ignored.
+Use ExcludeIf, if you want to write conditions per attribute. If condition is true, only that attribute will be ignored.
 
-You can write as many conditions as you like and exclude or set attributes any level deep in the yml file.
+
+```You can write as many conditions as you like and exclude or set attributes any level deep in the yml file.```
 
 ## Note
-   This plugin will ignore or update value of attributes based on your conditions and does not evaluate if it causes any side effects. You are responsbile to make sure ignoring or setting new values will work as you expected and will not cause serverless to throw error. 
+This plugin will ignore or update value of attributes based on your conditions and does not evaluate if it causes any side effects. You are responsbile to make sure ignoring or setting new values will work as you expected and will not cause serverless to throw error. 
 
-   The plugin will not remove or update any first level attributes in serverless.yml file  like ```service``` or ```provider``` or ```functions```.
+The plugin will not remove or update any first level attributes in serverless.yml file  like ```service``` or ```provider``` or ```functions```.
