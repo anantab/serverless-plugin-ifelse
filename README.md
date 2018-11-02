@@ -1,3 +1,8 @@
+[![NPM](https://nodei.co/npm/serverless-plugin-ifelse.png)](https://nodei.co/npm/serverless-plugin-ifelse/)
+
+[![Build Status](https://api.travis-ci.org/anantab/serverless-plugin-ifelse.png)](https://travis-ci.org/anantab/serverless-plugin-ifelse)
+[![devDependencies Status](https://david-dm.org/anantab/serverless-plugin-ifelse/dev-status.svg)](https://david-dm.org/anantab/serverless-plugin-ifelse?type=dev)
+
 # Serverless Plugin IfElse
 While you can use serverless variables to define different values for your atrributes based on either stage or other properties, it sometimes is not as straightforward. 
 

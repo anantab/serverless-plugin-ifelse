@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-ifelse",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Serverless Plugin to write If Else conditions in serverless YAML file",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,8 @@
   "author": "Ananta Bhandari",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^5.0.1",
-    "jest": "^23.3.0"
+    "eslint": "^5.8.0",
+    "jest": "^23.6.0"
   },
   "dependencies": {},
   "repository": {
