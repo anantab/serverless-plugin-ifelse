@@ -68,12 +68,29 @@ describe("Test Serverless IfElse Plugin With Condition Set 2", () => {
     });
 });
 
+describe("Test Serverless IfElse Plugin With Condition Set 3", () => {
+    beforeAll(() => {
+        const condition = getConditions("condition3");
+        serverless = getServerless();
+        serverless.service.custom.serverlessIfElse = condition;
+        const serverlessIfElse = new serverlessPluginIfElse(serverless);
+        serverlessIfElse.applyConditions();
+    });
+
+    it("It Should Set Serverless Properties in Set when If condition Matches and the serverless property is falsy boolean value ", () => {
+        expect(serverless.service.custom.customCertificate.enabled).toBeTruthy();
+    });
+});
+
 const getServerless = function () {
     return {
         service: {
             service: "Serverless Condition",
             custom: {
-                serverlessExclude: []
+                serverlessExclude: [],
+                customCertificate: {
+                    enabled: false
+                }
             },
             provider: {
                 name: "aws",
@@ -190,6 +207,14 @@ const getConditions = function (condition) {
                 {
                     "functions.func3": '"true" == "true"',
                 }
+            }
+        ],
+        condition3: [
+            {
+                If: '"true"=="true"',
+                Set: {
+                    "custom.customCertificate.enabled": "true",
+                },
             }
         ]
     };

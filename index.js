@@ -108,7 +108,7 @@ class serverlessPluginIfElse {
                 return;
             }
         }
-        if (item[path[i]]) {
+        if (path[i] in item) {
             if (type == "remove") {
                 this.serverless.cli.log(this.pluginName + " - Excluding: " + keyPath);
                 delete item[path[i]];
