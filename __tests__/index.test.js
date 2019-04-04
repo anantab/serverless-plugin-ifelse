@@ -33,6 +33,10 @@ describe("Test Serverless IfElse Plugin With Condition Set 1", () => {
         expect(serverless.service.functions.func3).toBeDefined();
         expect(serverless.service.functions.func3.name).toBe("Function 3");
     });
+
+    it("It Should create property if not defined", () => {
+        expect(serverless.service.provider.region).toBe("ap-southeast-2");
+    });
 });
 
 
@@ -167,6 +171,7 @@ const getConditions = function (condition) {
                 ],
                 Set: {
                     "provider.profile": "dev",
+                    "provider.region": "ap-southeast-2"
                 },
                 ElseExclude: [
                     "functions.func2",
