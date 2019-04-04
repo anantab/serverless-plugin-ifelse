@@ -17,8 +17,8 @@
   "author": "Ananta Bhandari",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^5.8.0",
-    "jest": "^23.6.0"
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1"
   },
   "dependencies": {},
   "repository": {
