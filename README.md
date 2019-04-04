@@ -10,7 +10,7 @@ For example, If you have a serverless project with 3 functions and you want to d
 
 Another use case that inspired me to write this plugin was, I wanted to use ```iamRoleStatements``` for all my Lambda functions in staging but use a pre-define ```role``` in production. You cannot have both attributes in serverless.yml file as serverless ignores ```iamRoleStatements``` if there is ```role``` attribute.
 
-This plugin allows you to write if else conditions in ```serverless.yml``` file to remove or change the values of attributes in the yml file. It works with both ```package``` and ```deploy``` commands. It also works with ```serverless-offline``` plugin.
+This plugin allows you to write if else conditions in ```serverless.yml``` file to add, remove or change the values of attributes in the yml file. It works with both ```package``` and ```deploy``` commands. It also works with ```serverless-offline``` plugin.
 
 
 # Installation
@@ -118,6 +118,6 @@ Use ExcludeIf, if you want to write conditions per attribute. If condition is tr
 ```You can write as many conditions as you like and exclude or set attributes any level deep in the yml file.```
 
 ## Note
-This plugin will ignore or update value of attributes based on your conditions and does not evaluate if it causes any side effects. You are responsbile to make sure ignoring or setting new values will work as you expected and will not cause serverless to throw error. 
+This plugin will ignore or update value of attributes based on your conditions and does not evaluate if it causes any side effect. You are responsbile to make sure ignoring or setting new values will work as you expected and will not cause serverless to throw error. 
 
 The plugin will not remove or update any first level attributes in serverless.yml file  like ```service``` or ```provider``` or ```functions```.
