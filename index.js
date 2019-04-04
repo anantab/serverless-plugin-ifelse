@@ -9,7 +9,7 @@ class serverlessPluginIfElse {
         this.options = options;
         this.hooks = {
             "before:package:initialize": this.applyConditions.bind(this),
-            "offline:start:init": this.applyConditions.bind(this),
+            "before:offline:start:init": this.applyConditions.bind(this),
         };
         this.pluginName = "serverless-plugin-ifelse";
     }
