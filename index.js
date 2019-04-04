@@ -119,7 +119,17 @@ class serverlessPluginIfElse {
                 }
                 this.serverless.cli.log(this.pluginName + " - Value Changed for : " + keyPath + " to: " + newValue);
             }
+        // If item not exists => add it to path    
+        } else {
+            if (type == "set") {
+                item[path[i]] = newValue;
+                if (typeof newValue == "object") {
+                    newValue = JSON.stringify(newValue);
+                }
+                this.serverless.cli.log(this.pluginName + " - Value Changed for : " + keyPath + " to: " + newValue);
+            }
         }
+
 
     }
 
