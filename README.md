@@ -28,7 +28,7 @@ custom:
           - provider.role
           - provider.environment.ENV1
           - functions.func3
-          - functions.func1.events.http.0.authorizer
+          - functions.func1.events.0.http.authorizer
         Set:
           provider.timeout: 90
           provider.profile: dev
