@@ -6,7 +6,7 @@
 # Serverless Plugin IfElse
 While you can use serverless variables to define different values for your atrributes based on either stage or other properties, it sometimes is not as straightforward.
 
-For example, If you have a serverless project with 3 functions and you want to deploy all 3 functions in one region but only 2 of them in other region, then there is no easier way to exlude the third function based on region you are deploying.
+For example, If you have a serverless project with 3 functions and you want to deploy all 3 functions in one region but only 2 of them in other region, then there is no easier way to exclude the third function based on region you are deploying.
 
 Another use case that inspired me to write this plugin was, I wanted to use ```iamRoleStatements``` for all my Lambda functions in staging but use a pre-define ```role``` in production. You cannot have both attributes in serverless.yml file as serverless ignores ```iamRoleStatements``` if there is ```role``` attribute.
 
@@ -125,3 +125,6 @@ Use ExcludeIf, if you want to write conditions per attribute. If condition is tr
 This plugin will ignore or update value of attributes based on your conditions and does not evaluate if it causes any side effect. You are responsbile to make sure ignoring or setting new values will work as you expected and will not cause serverless to throw error.
 
 The plugin will not remove or update any first level attributes in serverless.yml file  like ```service``` or ```provider``` or ```functions```.
+
+## Warning
+The conditions are executed using ```eval```, which executes the conditions as Javascript. Basically any javascript code in ```If``` or ```Else``` conditions are executed. This may cause security issues, especially if you have multiple (or community) contributors. Please make sure the code is properly reviewed and it does not cause any security issues.  
