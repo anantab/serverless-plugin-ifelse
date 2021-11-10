@@ -113,7 +113,11 @@ class serverlessPluginIfElse {
         if (path[i] in item) {
             if (type == "remove") {
                 this.serverless.cli.log(this.pluginName + " - Excluding: " + keyPath);
-                delete item[path[i]];
+                if (Array.isArray(item)) {
+                    item.splice(parseInt(path[i]), 1);
+                } else {
+                    delete item[path[i]];
+                }
             } else if (type == "set") {
                 item[path[i]] = newValue;
                 if (typeof newValue == "object") {
