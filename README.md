@@ -4,7 +4,7 @@
 [![devDependencies Status](https://david-dm.org/anantab/serverless-plugin-ifelse/dev-status.svg)](https://david-dm.org/anantab/serverless-plugin-ifelse?type=dev)
 
 # Serverless Plugin IfElse
-While you can use serverless variables to define different values for your atrributes based on either stage or other properties, it sometimes is not as straightforward.
+While you can use serverless variables to define different values for your attributes based on either stage or other properties, it sometimes is not as straightforward.
 
 For example, If you have a serverless project with 3 functions and you want to deploy all 3 functions in one region but only 2 of them in other region, then there is no easier way to exclude the third function based on region you are deploying.
 
