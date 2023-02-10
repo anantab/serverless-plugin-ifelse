@@ -10,9 +10,17 @@ describe("Test Serverless IfElse Plugin With Condition Set 1", () => {
         serverlessIfElse.applyConditions();
     });
 
-    it("It Should Remove Serverless Properties in Exlude when If condition Matches", () => {
+    it("It Should Remove Serverless Properties in Exclude when If condition Matches", () => {
         expect(serverless.service.functions.func1).toBeUndefined();
         expect(serverless.service.functions.role).toBeUndefined();
+    });
+
+
+
+    it("It Should Remove Array Items in Exclude when If condition Matches", () => {
+        expect(serverless.service.custom.cors.headers).toEqual([
+            "Normal-Header"
+        ]);
     });
 
     it("It Should Set Serverless Properties in Set When If condition Matches", () => {
@@ -69,6 +77,7 @@ describe("Test Serverless IfElse Plugin With Condition Set 2", () => {
 
     it("It Should Remove Serverless Properties in ExcludeIf when condition Matches", () => {
         expect(serverless.service.functions.func3).toBeUndefined();
+        expect(serverless.service.custom.cors.headers).toEqual(["Normal-Header"]);
     });
 });
 
@@ -86,6 +95,37 @@ describe("Test Serverless IfElse Plugin With Condition Set 3", () => {
     });
 });
 
+describe("sortKeyPathsDesc", () => {
+    let slsIfElse;
+    beforeAll(() => {
+        slsIfElse = new serverlessPluginIfElse({});
+    });
+
+    it("It Should Sort Indices as Numbers", () => {
+        expect(slsIfElse.sortKeyPathsDesc(
+            ["aa.1", "aa.11", "aa.2", "b.ccc"]
+        )).toEqual(
+            ["b.ccc", "aa.11", "aa.2", "aa.1"]
+        );
+    });
+
+    it("It Should Keep Invalid Indices at the Beginning and Sort Them Lexicographically", () => {
+        expect(slsIfElse.sortKeyPathsDesc(
+            ["aa.1", "aa.11", "aa.11z", "aa.2a"]
+        )).toEqual(
+            ["aa.2a", "aa.11z", "aa.11", "aa.1"]
+        );
+    });
+
+    it("It Should Put Deeper Paths at the Beginning", () => {
+        expect(slsIfElse.sortKeyPathsDesc(
+            ["a.b", "a.b.c", "a.d.e", "a.d"]
+        )).toEqual(
+            ["a.d.e", "a.d", "a.b.c", "a.b"]
+        );
+    });
+});
+
 const getServerless = function () {
     return {
         service: {
@@ -94,6 +134,13 @@ const getServerless = function () {
                 serverlessExclude: [],
                 customCertificate: {
                     enabled: false
+                },
+                cors: {
+                    headers: [
+                        "X-Prod-Specific-Header-1",
+                        "Normal-Header",
+                        "X-Prod-Specific-Header-2"
+                    ]
                 }
             },
             provider: {
@@ -167,7 +214,9 @@ const getConditions = function (condition) {
                 If: '"true"=="true"',
                 Exclude: [
                     "functions.func1",
-                    "provider.role"
+                    "provider.role",
+                    "custom.cors.headers.0",
+                    "custom.cors.headers.2",
                 ],
                 Set: {
                     "provider.profile": "dev",
@@ -211,6 +260,8 @@ const getConditions = function (condition) {
                 ExcludeIf:
                 {
                     "functions.func3": '"true" == "true"',
+                    "custom.cors.headers.0": '"true" == "true"',
+                    "custom.cors.headers.2": '"true" == "true"',
                 }
             }
         ],
