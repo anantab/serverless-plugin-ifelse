@@ -41,15 +41,20 @@ class serverlessPluginIfElse {
             }
 
             if (this.isvalidObject(item.ExcludeIf)) {
-                Object.keys(item.ExcludeIf).forEach((exludeKey) => {
+                let keyPaths = Object.keys(item.ExcludeIf);
+
+                // Sort keyPaths to remove array items at correct indices
+                keyPaths = this.sortKeyPathsDesc(keyPaths);
+
+                keyPaths.forEach((excludeKey) => {
                     try {
-                        if (eval(item.ExcludeIf[exludeKey])) {
-                            this.conditionMatchLog(item.ExcludeIf[exludeKey], true);
-                            this.changeKey(exludeKey);
+                        if (eval(item.ExcludeIf[excludeKey])) {
+                            this.conditionMatchLog(item.ExcludeIf[excludeKey], true);
+                            this.changeKey(excludeKey);
                         }
                     }
                     catch (e) {
-                        this.evaluateErrorLog(item.ExcludeIf[exludeKey], e);
+                        this.evaluateErrorLog(item.ExcludeIf[excludeKey], e);
                     }
                 });
             }
@@ -76,6 +81,54 @@ class serverlessPluginIfElse {
             this.changeKey(key, "set", items[key]);
         });
     }
+
+    /**
+     * @param {string} str
+     */
+    isDigitsOnly(str) {
+        return /^\d+$/.test(str);
+    }
+
+    /**
+     * Sorts key paths in descending order in such way that indices in the path
+     * are correctly treated as numbers. The original array is not touched.
+     * @param {string[]} keyPaths
+     */
+    sortKeyPathsDesc(keyPaths) {
+        const keyPathsParsed = keyPaths.map(keyPath => keyPath.split("."));
+
+        keyPathsParsed.sort((pathA, pathB) => {
+            for (let i = 0; i < Math.min(pathA.length, pathB.length); i++) {
+                if (this.isDigitsOnly(pathA[i]) && this.isDigitsOnly(pathB[i])) {
+                    const numA = parseInt(pathA[i]);
+                    const numB = parseInt(pathB[i]);
+                    if (numA < numB) {
+                        return 1;
+                    } else if (numA > numB) {
+                        return -1;
+                    }
+                } else {
+                    // Use the default comparator
+                    if (pathA[i] < pathB[i]) {
+                        return 1;
+                    } else if (pathA[i] > pathB[i]) {
+                        return -1;
+                    }
+                }
+            }
+
+            if (pathA.length < pathB.length) {
+                return 1;
+            } else if (pathA.length > pathB.length) {
+                return -1;
+            }
+
+            return 0;
+        });
+
+        return keyPathsParsed.map(path => path.join("."));
+    }
+
     /**
      *
      * @param {*} item
@@ -85,6 +138,9 @@ class serverlessPluginIfElse {
             return;
         }
         if (typeof item == "object") {
+            // Sort keyPaths to remove array items at correct indices
+            item = this.sortKeyPathsDesc(item);
+
             item.forEach((key) => {
                 this.changeKey(key);
             });
@@ -113,7 +169,11 @@ class serverlessPluginIfElse {
         if (path[i] in item) {
             if (type == "remove") {
                 this.serverless.cli.log(this.pluginName + " - Excluding: " + keyPath);
-                delete item[path[i]];
+                if (Array.isArray(item)) {
+                    item.splice(path[i], 1);
+                } else {
+                    delete item[path[i]];
+                }
             } else if (type == "set") {
                 item[path[i]] = newValue;
                 if (typeof newValue == "object") {
